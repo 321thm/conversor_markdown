@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>            
+    <script  src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertor Markdown</title>
+</head>
+<style>
+    body{
+        font: 15px Arial;
+        background-color: black;
+        color: white;
+    }
+    #editor{
+        width: 50vw;
+        height: 30vh;
+    }
+    #mark{
+        text-align: center;
+    }
+    #preview{
+        margin-top: 1vh;
+    }
+    code{
+      background-color: white;
+      color: black;
+    }
+    blockquote{
+      background-color: rgba(57, 211, 57, 0.596);
+      color: black;
+    }
+</style>
+<body>
+
+   <div id='mark'>
+
+   </div>
+   <div id='preview'>  
+
+   </div>
+
+</body>
+<script type='text/babel'>
+class Editor extends React.Component { 
+  constructor(props) {
+    super(props);
+    this.state = {
+        valor: `
+# Se bota titulo usando a "hash-tag"
+## Sub-titulo usando duas "hash-tags" 
+
+[Assim que se botara link]() (olhe no editor de código) <br /> <br />
+Assim que se bota uma linha de código` +  ' `<p> Coloque entre crases </p>` ' + `e assim se bota um bloco
+
+~~~~
+escrever(){     
+    this.setState(state => ({
+      valor: event.target.value
+    })) 
+  }
+~~~~
+
+1. Se quizer botar um lista faça isso
+44. E você nem precisa botar os números em ordem
+9. Como pode ver no editor
+
+> Para ultilizar o blockquote ultilize a 'setinha'
+
+![Para ultilizar uma imagem é parecido com o link]()
+
+E o texto em **negrito** é só ultilizar dois **asteriscos**
+      `
+    }
+  
+    this.escrever = this.escrever.bind(this)
+  }
+ 
+  escrever(){     
+    this.setState(state => ({
+      valor: event.target.value
+    })) 
+  }
+
+  render(){ 
+    document.getElementById('preview').innerHTML = marked(this.state.valor)
+
+    return(
+        <>
+  <textarea id='editor' onChange={this.escrever} value={this.state.valor}/>
+  </>
+    )
+  }
+  }
+  ReactDOM.render(<Editor />, document.getElementById('mark'))
+</script>
+</html>
